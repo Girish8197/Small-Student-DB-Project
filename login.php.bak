@@ -1,0 +1,40 @@
+<!DOCTTYPE html>
+<html>
+<head>
+<title>Login</title>
+<link rel = "stylesheet" href = "style1.css">
+</head>
+<body>
+<form class = "box" action = "login.php" method = "POST">
+<h1>Login</h1>
+<input type = "text" placeholder = "Enter Email" id = "username" name = "username" required>
+<input type = "password" placeholder = "Enter Password" id = "password" name = "password" required><br>
+<input type = "submit" value = "Login" name = "Login">
+<p>Don't have an account?</p>
+<a href = "Register.php">Sign up</a>
+</form>
+</body>
+</html>
+
+<?php
+$conn = mysqli_connect('localhost:3307','root','');
+mysqli_select_db($conn,'student_data');
+
+if(!empty($_POST['username']) && !empty($_POST['password'])){
+	global $gmail = $_POST['username'];
+	$pass = $_POST['password'];
+
+	$query = "select * from login where gmail = '$gmail' and password = '$pass'";
+
+	$result = mysqli_query($conn,$query);
+	$num = mysqli_num_rows($result);
+
+	if($num == 1){
+		header('location:Main_form.php');
+	}else{
+		echo "<script type = 'text/javascript'>";
+		echo "alert('Incorrect Username and Password')";
+		echo "</script>";
+	}
+}
+?>
